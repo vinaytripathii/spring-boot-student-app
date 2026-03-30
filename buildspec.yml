@@ -7,25 +7,21 @@ phases:
 
   pre_build:
     commands:
-      - echo Logging into ECR...
       - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 248263319353.dkr.ecr.ap-south-1.amazonaws.com
 
   build:
     commands:
-    - echo Build started...
-    - cd spring-boot-student-app
-    - mvn clean package
-    - ls -l target
-    - docker build -t student-app .
-    - docker images 
-    - docker tag student-app:latest 248263319353.dkr.ecr.ap-south-1.amazonaws.com/student-app:latest
+      - cd spring-boot-student-app
+      - mvn clean package
+      - docker build -t student-app .
+      - docker tag student-app:latest 248263319353.dkr.ecr.ap-south-1.amazonaws.com/student-app:latest
 
   post_build:
     commands:
-    - echo Pushing image...
-    - docker push 248263319353.dkr.ecr.ap-south-1.amazonaws.com/student-app:latest
-    - printf '[{"name":"student-app","imageUri":"248263319353.dkr.ecr.ap-south-1.amazonaws.com/student-app:latest"}]' > imagedefinitions.json
-    
+      - docker push 248263319353.dkr.ecr.ap-south-1.amazonaws.com/student-app:latest
+      - cd ..
+      - printf '[{"name":"student-app","imageUri":"248263319353.dkr.ecr.ap-south-1.amazonaws.com/student-app:latest"}]' > imagedefinitions.json
+
 artifacts:
   files:
     - imagedefinitions.json
