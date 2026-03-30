@@ -22,7 +22,8 @@ phases:
     commands:
       - echo Pushing image...
       - docker push 248263319353.dkr.ecr.ap-south-1.amazonaws.com/student-app:latest
-      - printf '[{"name":"student-app","imageUri":"248263319353.dkr.ecr.ap-south-1.amazonaws.com/student-app:latest"}]' > ../imagedefinitions.json
+      - printf '[{"name":"student-app","imageUri":"248263319353.dkr.ecr.ap-south-1.amazonaws.com/student-app:latest"}]' > $CODEBUILD_SRC_DIR/imagedefinitions.json
+
 artifacts:
   files:
     - imagedefinitions.json
